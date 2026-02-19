@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../components/my_textfield.dart';
 import '../services/auth_service.dart';
 import '../services/chat_service.dart';
+import 'package:intl/intl.dart';
+import '../components/chat_bubble.dart';
 
 class ChatPage extends StatelessWidget {
   final String receiverEmail;
@@ -23,7 +25,6 @@ class ChatPage extends StatelessWidget {
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
       await _chatService.sendMessage(receiverID, _messageController.text);
-      // Clear the text field after sending
       _messageController.clear();
     }
   }
@@ -60,25 +61,36 @@ class ChatPage extends StatelessWidget {
 
   //Build individual message bubble
   Widget _buildMessageItem(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    bool isCurrentUser = data['senderId'] == _authService.getCurrentUser()!.uid;
-    var alignment = isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
-    return Container(
-      alignment: alignment,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isCurrentUser ? Colors.green[400] : Colors.grey[400],
-          borderRadius: BorderRadius.circular(12),
+  Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  bool isCurrentUser = data['senderId'] == _authService.getCurrentUser()!.uid;
+  var alignment = isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+  // Extract and format time from the message timestamp
+  Timestamp timestamp = data['timestamp'];
+  DateTime dateTime = timestamp.toDate();
+  String formattedTime = DateFormat('hh:mm a').format(dateTime);
+
+  return Container(
+    alignment: alignment,
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    child: Column(
+      crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        ChatBubble(
+          message: data["message"],
+          isCurrentUser: isCurrentUser,
         ),
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 25),
-        child: Text(
-          data["message"],
-          style: const TextStyle(color: Colors.white),
+        Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+          child: Text(
+            formattedTime,
+            style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+          ),
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
 
   Widget _buildUserInput() {
     return Padding(

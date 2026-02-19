@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../services/chat_service.dart';
 import 'chat_page.dart';
+import '../components/my_drawer.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -13,15 +14,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Users"),
         actions: [
           IconButton(
-            onPressed: () => _authService.signOut(), 
-            icon: const Icon(Icons.logout)
+            onPressed: () => _authService.signOut(),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: _buildUserList(),
+      drawer: const MyDrawer(),
     );
   }
 
@@ -46,12 +48,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
+  Widget _buildUserListItem(
+    Map<String, dynamic> userData,
+    BuildContext context,
+  ) {
     if (userData["email"] != _authService.getCurrentUser()?.email) {
       return ListTile(
         title: Text(userData["email"]),
         onTap: () {
-         Navigator.push(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ChatPage(
@@ -59,7 +64,7 @@ class HomePage extends StatelessWidget {
                 receiverID: userData["uid"],
               ),
             ),
-          ); 
+          );
         },
       );
     } else {

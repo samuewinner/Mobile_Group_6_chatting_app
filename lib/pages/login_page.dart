@@ -10,28 +10,27 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _pwController = TextEditingController();
 
   LoginPage({super.key});
-  
+
   void login(BuildContext context) async {
     final authService = AuthService();
-    
+
     try {
       await authService.signInWithEmailPassword(
-        _emailController.text, 
-        _pwController.text
+        _emailController.text,
+        _pwController.text,
       );
       debugPrint("login successfull! ");
     } catch (e) {
       if (context.mounted) {
         showDialog(
-          context: context, 
-          builder: (context) => AlertDialog(
-            title: Text("Error"),
-            content: Text(e.toString()),
-          ),
+          context: context,
+          builder: (context) =>
+              AlertDialog(title: Text("Error"), content: Text(e.toString())),
         );
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,19 +43,27 @@ class LoginPage extends StatelessWidget {
             Icon(Icons.message, size: 60, color: Colors.grey[800]),
             const SizedBox(height: 50),
             // The welcome message
-            Text("welcome back, chat with friends!", style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+            Text(
+              "welcome back, chat with friends!",
+              style: TextStyle(color: Colors.grey[700], fontSize: 16),
+            ),
             const SizedBox(height: 25),
             // The email textfield
-            MyTextField(hintText: "Email", obscureText: false, controller: _emailController),
+            MyTextField(
+              hintText: "Email",
+              obscureText: false,
+              controller: _emailController,
+            ),
             const SizedBox(height: 10),
             // the pw textfield
-            MyTextField(hintText: "Password", obscureText: true, controller: _pwController),
+            MyTextField(
+              hintText: "Password",
+              obscureText: true,
+              controller: _pwController,
+            ),
             const SizedBox(height: 25),
             // The login button
-            MyButton(
-              text: "Login", 
-              onTap: () => login(context),
-            ),
+            MyButton(text: "Login", onTap: () => login(context)),
             const SizedBox(height: 25),
             // The registration
             Row(
@@ -69,12 +76,15 @@ class LoginPage extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     debugPrint("Register Page!");
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
                   },
                   child: Text(
                     "Register now",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold, 
+                      fontWeight: FontWeight.bold,
                       color: Colors.grey[900],
                     ),
                   ),
