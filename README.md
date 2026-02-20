@@ -1,3 +1,4 @@
+GROUP NO. 06 MEMBERS COLLABORATED IN MOBILE CHAT APPLICATION
 Samwel japhet jamson nit/bcs/2023/493
 Anold Joachim John     nit/bcs/2023/540
 Catherine Coisasi Mollel nit/bcs/2023/610
