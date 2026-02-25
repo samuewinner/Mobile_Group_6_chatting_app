@@ -23,7 +23,7 @@ If you have just cloned this repository, you will need to manually add the follo
 
 ### How to setup:
 * **Existing Collaborators:** If you already had these files, ensure you keep a local backup before performing a `git pull`.
-* **New Contributors:** Please contact the project administrator (Samue Jameson) to receive the secure configuration files via a private channel.
-* **Environment Variables:** If you are using an `.env` file, make sure to create a copy of `.env.example`, rename it to `.env`, and populate it with the correct API keys.
+* **New Contributors:** Please contact the project administrator (samuejameson@gmail.com |0757211564)  to receive the secure configuration files via a private channel.
+
 
 **Note:** Never commit these files back to the repository.
